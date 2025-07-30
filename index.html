@@ -2326,8 +2326,21 @@
             `;
             closeBtn.onmouseover = () => closeBtn.style.backgroundColor = '#5a9bd5';
             closeBtn.onmouseout = () => closeBtn.style.backgroundColor = '#6eb0f1';
+
             closeBtn.addEventListener('click', () => {
-                window.location.replace('index.html');
+
+                if (typeof AndroidApp !== 'undefined' && AndroidApp.closeActivity) {
+                    AndroidApp.closeActivity();
+                }
+
+                else if (window.location && window.location.href) {
+                    window.location.href = "android://close";
+                }
+
+                else {
+                    document.body.removeChild(reviewOverlay);
+                    console.log("Mode browser: overlay ditutup");
+                }
             });
 
             closeBtnContainer.appendChild(closeBtn);
