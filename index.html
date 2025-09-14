@@ -1772,6 +1772,11 @@
             questionListOverlay.style.width = '100vw';
             questionListOverlay.style.height = '100vh';
             questionListOverlay.style.backgroundColor = 'white';
+            questionListOverlay.style.backgroundImage = 'url("logo.png")';
+            questionListOverlay.style.backgroundSize = '16% auto';
+            questionListOverlay.style.backgroundPosition = 'top center';
+            questionListOverlay.style.backgroundRepeat = 'no-repeat';
+            questionListOverlay.style.backgroundAttachment = 'fixed';
             questionListOverlay.style.display = 'flex';
             questionListOverlay.style.justifyContent = 'center';
             questionListOverlay.style.alignItems = 'center';
@@ -1781,9 +1786,9 @@
             questionListOverlay.style.padding = '10px';
 
             const questionListContainer = document.createElement('div');
-            questionListContainer.style.backgroundColor = 'white';
+            questionListContainer.style.backgroundColor = 'tranparent';
             questionListContainer.style.padding = '20px';
-            questionListContainer.style.paddingLeft = '32px';
+            questionListContainer.style.paddingLeft = '30px';
             questionListContainer.style.paddingBottom = '20px';
             questionListContainer.style.border = 'none';
             questionListContainer.style.width = '100%';
