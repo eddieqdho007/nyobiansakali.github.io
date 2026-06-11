@@ -104,7 +104,7 @@
             font-size: var(--base-font-size);
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .jawaban {
             padding: 10px;
             overflow-y: auto;
@@ -619,8 +619,7 @@
             font-weight: bold;
         }
 
-        @media screen and (min-width: 993px) {
-        }
+        @media screen and (min-width: 993px) {}
 
         @media screen and (max-width: 768px) and (orientation: portrait) {
             :root {
@@ -656,7 +655,8 @@
                 max-height: 20vh;
             }
 
-            .text-box, .text-box-2 {
+            .text-box,
+            .text-box-2 {
                 max-width: 95%;
                 margin: 8px auto;
             }
@@ -706,13 +706,13 @@
                 justify-content: center;
                 text-align: center;
                 padding: 2px 0 !important;
-                pointer-events: auto !important; 
+                pointer-events: auto !important;
             }
         }
 
         @media screen and (max-width: 992px) and (orientation: landscape) {
             :root {
-                --base-font-size: 18px; 
+                --base-font-size: 18px;
                 --header-height: 38px;
                 --footer-height: 42px;
             }
@@ -731,7 +731,8 @@
                 height: calc(100svh - var(--header-height) - var(--footer-height));
             }
 
-            .soal, .jawaban {
+            .soal,
+            .jawaban {
                 height: 100%;
             }
 
@@ -742,7 +743,8 @@
                 max-height: 30vh;
             }
 
-            .text-box, .text-box-2 {
+            .text-box,
+            .text-box-2 {
                 max-width: 95%;
                 margin: 5px auto;
                 padding: 8px;
@@ -757,9 +759,11 @@
             .header-bar {
                 font-size: 9px;
             }
+
             .footer-button button {
                 font-size: 11px;
             }
+
             .footer-button .tengah {
                 max-width: calc(100% - 150px);
             }
@@ -805,8 +809,8 @@
     </div>
 
     <script>
-		let pinchStartDist = 0;
-        let currentScale = 1;
+        let pinchStartDist = 0;
+        let currentScale = 0.8;
         let startDist = 0;
         let isDragging = false;
         let startX = 0, startY = 0;
@@ -832,7 +836,7 @@
         const userAnswers = {};
         let score = 0;
         const audioTranscripts = {
-        
+
             "21": "침대가 있어요?",
             "22": "복숭아부터 땁시다",
             "23": "배합 사료랑 조사료를같이 주면 될까요?",
@@ -1467,8 +1471,8 @@
                 }).join('')}
             </div>
         `;
-                    jawabanDiv.insertAdjacentHTML('beforeend', answerHTML);
-                });
+                jawabanDiv.insertAdjacentHTML('beforeend', answerHTML);
+            });
         }
 
         function updateCorrectAnswers() {
@@ -1507,23 +1511,23 @@
             overlay.style.display = "flex";
             document.body.style.overflow = "hidden";
             gambar.src = src;
-            
-            currentScale = 1; 
+
+            currentScale = 0.8;
             translateX = 0;
             translateY = 0;
-            
+
             gambar.style.width = '100vw';
             gambar.style.height = '100vh';
             gambar.style.maxWidth = '100vw';
             gambar.style.maxHeight = '100vh';
             gambar.style.objectFit = 'contain';
             gambar.style.transition = 'none';
-            
+
             updateGambarTransform();
 
             const zoomArea = document.querySelector('.zoom-area');
-            
-            zoomArea.ontouchstart = function(e) {
+
+            zoomArea.ontouchstart = function (e) {
                 if (e.touches.length === 2) {
                     isDragging = false;
                     startDist = Math.hypot(
@@ -1531,7 +1535,7 @@
                         e.touches[0].pageY - e.touches[1].pageY
                     );
                 } else if (e.touches.length === 1) {
-                    if (currentScale > 1) {
+                    if (currentScale > 0.8) {
                         isDragging = true;
                         startX = e.touches[0].pageX - translateX;
                         startY = e.touches[0].pageY - translateY;
@@ -1539,20 +1543,21 @@
                 }
             };
 
-            zoomArea.ontouchmove = function(e) {
+            zoomArea.ontouchmove = function (e) {
                 if (e.touches.length === 2) {
                     e.preventDefault();
                     const currentDist = Math.hypot(
                         e.touches[0].pageX - e.touches[1].pageX,
                         e.touches[0].pageY - e.touches[1].pageY
                     );
-                    
+
                     const delta = currentDist / startDist;
+
                     currentScale = currentScale * (delta > 1 ? 1.04 : 0.96);
-                    
-                    if (currentScale < 1) currentScale = 1;
+
+                    if (currentScale < 0.8) currentScale = 0.8;
                     if (currentScale > 5) currentScale = 5;
-                    if (currentScale <= 1.02) {
+                    if (currentScale <= 0.82) {
                         translateX = 0;
                         translateY = 0;
                     }
@@ -1567,16 +1572,16 @@
                 }
             };
 
-            zoomArea.ontouchend = function(e) {
+            zoomArea.ontouchend = function (e) {
                 if (e.touches.length < 2) startDist = 0;
-                
+
                 if (e.touches.length === 0) {
                     isDragging = false;
-                    if (currentScale <= 1.05) {
-                        currentScale = 1;
+                    if (currentScale <= 0.85) {
+                        currentScale = 0.8;
                         translateX = 0;
                         translateY = 0;
-                        
+
                         gambar.style.transition = 'transform 0.2s ease-out';
                         updateGambarTransform();
                         setTimeout(() => { gambar.style.transition = 'none'; }, 200);
