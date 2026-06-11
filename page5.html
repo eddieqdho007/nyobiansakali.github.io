@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Quiz 40 Questions</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
             --header-height: 40px;
             --footer-height: 40px;
             --base-font-size: 20px;
-            --mobile-font-size: 18px;
+            --mobile-font-size: 16px;
         }
 
         * {
@@ -35,6 +35,7 @@
             font-family: 'Noto Sans KR', Arial, sans-serif;
             font-size: var(--base-font-size);
             color: var(--text-color);
+            background-color: white;
         }
 
         .header-bar {
@@ -57,6 +58,10 @@
             align-items: center;
             justify-content: center;
             border-right: 1px solid var(--border-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 2px;
         }
 
         .header-bar div:nth-child(1),
@@ -86,25 +91,28 @@
             grid-template-columns: 55% 45%;
             margin-top: var(--header-height);
             height: calc(100vh - var(--header-height) - var(--footer-height));
+            height: calc(100svh - var(--header-height) - var(--footer-height));
         }
 
         .soal {
-            padding: 5px;
-            padding-left: 25px;
+            padding: 10px;
+            padding-left: 20px;
             overflow-y: auto;
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             background-color: white;
             font-size: var(--base-font-size);
+            -webkit-overflow-scrolling: touch;
         }
         
         .jawaban {
-            padding: 5px;
+            padding: 10px;
             overflow-y: auto;
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
             background-color: white;
             font-size: var(--base-font-size);
+            -webkit-overflow-scrolling: touch;
         }
 
         .pertanyaan {
@@ -120,9 +128,11 @@
         .jawaban-gambar,
         .review-image {
             display: block;
-            max-width: 50%;
+            max-width: 60%;
             height: auto;
-            margin: 15px auto;
+            max-height: 25vh;
+            object-fit: contain;
+            margin: 10px auto;
             border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -142,18 +152,18 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: #000000;
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 999999;
             touch-action: none;
         }
 
         .zoom-area {
-            width: 100%;
-            height: 100%;
-            overflow: auto;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -161,10 +171,11 @@
         }
 
         .zoom-area img {
-            max-width: 90vw;
-            max-height: 90vh;
+            max-width: 100vw;
+            max-height: 100vh;
             object-fit: contain;
             transition: transform 0.25s ease;
+            touch-action: none;
         }
 
         .btn-tutup {
@@ -175,12 +186,12 @@
             color: #000;
             border: none;
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            font-size: 18px;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 10000;
+            z-index: 100000;
         }
 
         .jawaban-item {
@@ -188,6 +199,7 @@
             align-items: center;
             padding: 12px 16px;
             border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
         }
 
         .jawaban-item:last-child {
@@ -208,6 +220,7 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
+            font-size: var(--base-font-size);
         }
 
         .jawaban-item.selected .lingkaran {
@@ -232,13 +245,14 @@
             bottom: 0;
             width: 100%;
             height: var(--footer-height);
+            z-index: 999;
         }
 
         .footer-button button {
             flex: 1;
             max-width: 200px;
             height: 100%;
-            font-size: 17px;
+            font-size: 16px;
             border: none;
             border-left: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
@@ -249,12 +263,13 @@
         }
 
         .footer-button button:hover {
-            background-color: #00000063;
+            background-color: #00000030;
         }
 
         .footer-button button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .footer-button .tengah {
@@ -264,6 +279,10 @@
             cursor: pointer;
             padding-left: 10px;
             padding-right: 10px;
+            max-width: calc(100% - 220px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .pertanyaan h3,
@@ -276,31 +295,31 @@
         }
 
         .pertanyaan h3 {
-            margin: 10px;
-            margin-bottom: 20px;
+            margin: 8px 0;
+            margin-bottom: 12px;
         }
 
         .pertanyaan p {
-            margin: 10px;
-            line-height: 1.5;
+            margin: 8px 0;
+            line-height: 1.4;
         }
 
         .deskripsi-soal {
-            line-height: 1.5;
-            margin: 10px;
+            line-height: 1.4;
+            margin: 8px 0;
             background-color: white;
         }
 
         .text-box,
         .text-box-2 {
             display: block;
-            max-width: 80%;
-            margin: 15px auto;
-            padding: 15px;
+            max-width: 90%;
+            margin: 10px auto;
+            padding: 10px;
             background-color: white;
             border: 1px solid #cacaca;
             font-size: var(--base-font-size);
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .text-box-2 {
@@ -314,8 +333,8 @@
         .audio-control {
             display: none;
             text-align: center;
-            margin: 15px auto;
-            max-width: 200px;
+            margin: 10px auto;
+            max-width: 160px;
             overflow: hidden;
         }
 
@@ -324,7 +343,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 15px auto;
+            margin: 10px auto;
             gap: 10px;
         }
 
@@ -353,8 +372,8 @@
         }
 
         .audio-icon {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border: 2px solid rgb(22, 31, 170);
             border-radius: 15px;
             box-sizing: border-box;
@@ -372,8 +391,8 @@
         }
 
         .jawaban-gambar {
-            max-width: 100px;
-            max-height: 60px;
+            max-width: 90px;
+            max-height: 55px;
             border-radius: 4px;
         }
 
@@ -383,8 +402,8 @@
         }
 
         .jawaban-audio-player button {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
         }
 
         .jawaban-audio-player button img {
@@ -392,27 +411,20 @@
         }
 
         .review-question {
-            margin: 30px 50px;
-            padding: 70px;
+            margin: 20px;
+            padding: 20px;
             border: 1px solid #2c2c2c;
             border-radius: 8px;
             background-color: white;
             font-size: var(--base-font-size);
         }
 
-        .review-option-content {
+        .review-option-content,
+        .review-question-content,
+        .review-options,
+        .review-option {
             font-size: var(--base-font-size);
-            line-height: 1.5;
-        }
-
-        .review-question-content {
-            margin-bottom: 15px;
-            font-size: var(--base-font-size);
-        }
-
-        .review-options {
-            margin-top: 15px;
-            font-size: var(--base-font-size);
+            line-height: 1.4;
         }
 
         .review-option {
@@ -422,7 +434,6 @@
             margin-bottom: 5px;
             border-radius: 4px;
             border: 1px solid #ddd;
-            font-size: var(--base-font-size);
         }
 
         .review-option.correct {
@@ -448,25 +459,25 @@
             font-weight: bold;
             background-color: #f5f5f5;
             font-size: var(--base-font-size);
+            flex-shrink: 0;
         }
 
         .review-option.correct .review-option-number,
         .review-option.correct.user-selected .review-option-number {
             background-color: var(--correct-color);
             color: white;
-            font-size: var(--base-font-size);
         }
 
         .review-option.user-selected .review-option-number {
             background-color: var(--incorrect-color);
             color: white;
-            font-size: var(--base-font-size);
         }
 
         .review-audio-btn {
-            width: 60px;
-            height: 60px;
-            margin: 0 20px;
+            width: 50px;
+            height: 50px;
+            margin: 0 10px;
+            flex-shrink: 0;
         }
 
         .result-overlay {
@@ -479,19 +490,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
+            z-index: 100000;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
         }
 
         .result-content {
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
-            max-width: 800px;
+            padding: 15px;
+            max-width: 600px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 95vh;
             overflow-y: auto;
             position: relative;
         }
@@ -515,8 +526,8 @@
             padding: 10px;
             background-color: #f8f9fa;
             border-left: 3px solid var(--primary-color);
-            font-size: 18px;
-            line-height: 1.5;
+            font-size: 16px;
+            line-height: 1.4;
             color: #333;
             border-radius: 0 4px 4px 0;
         }
@@ -531,14 +542,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100000;
+            z-index: 1000000;
         }
 
         .custom-dialog-content {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            max-width: 400px;
+            max-width: 320px;
             width: 90%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
@@ -569,19 +580,6 @@
             color: white;
         }
 
-        .progress-container {
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
-
-        .progress-container:hover {
-            background-color: #ccc;
-        }
-
-        .progress-bar {
-            transition: width 0.1s linear;
-        }
-
         .audio-player-container {
             width: 100%;
             margin-top: 8px;
@@ -589,19 +587,25 @@
 
         .progress-container {
             width: 100%;
-            height: 4px;
+            height: 6px;
             background-color: #ddd;
-            border-radius: 2px;
+            border-radius: 3px;
             position: relative;
             cursor: pointer;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .progress-container:hover {
+            background-color: #ccc;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
             background-color: var(--primary-color);
-            border-radius: 2px;
+            border-radius: 3px;
+            transition: width 0.1s linear;
         }
 
         .time-container {
@@ -615,273 +619,149 @@
             font-weight: bold;
         }
 
-        .question-list-container {
-            width: 90%;
-            max-width: 800px;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 20px auto;
+        @media screen and (min-width: 993px) {
         }
 
-        .question-list-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .question-list-btn {
-            width: 100%;
-            height: 40px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            background-color: var(--light-gray);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .question-list-btn:hover {
-            background-color: #e0e0e0;
-        }
-
-        .question-list-btn.current {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .question-list-btn.answered {
-            background-color: var(--correct-color);
-            color: white;
-        }
-
-        .question-list-btn.unanswered {
-            background-color: var(--incorrect-color);
-            color: white;
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 50% 50%;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .header-bar {
-                font-size: 16px;
-            }
-
-            .pertanyaan img,
-            .jawaban-gambar,
-            .review-image {
-                max-width: 70%;
-            }
-        }
-
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) and (orientation: portrait) {
             :root {
                 --base-font-size: 18px;
-            }
-
-            .container {
-                grid-template-columns: 100%;
-                grid-template-rows: 1fr 1fr;
-                height: calc(100vh - var(--header-height) - var(--footer-height));
-            }
-
-            .soal,
-            .jawaban {
-                height: 50%;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 5px;
-            }
-
-            .footer-button button {
-                font-size: var(--mobile-font-size);
-                max-width: 150px;
-            }
-
-            .review-question {
-                margin: 20px;
-                padding: 30px;
-            }
-
-            .question-list-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .pertanyaan img,
-            .jawaban-gambar,
-            .review-image {
-                max-width: 80%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            :root {
-                --header-height: 50px;
-                --footer-height: 50px;
+                --header-height: 44px;
+                --footer-height: 85px;
             }
 
             .header-bar {
-                grid-template-columns: 25% 20% 10% 25% 10% 10%;
-                font-size: 14px;
+                grid-template-columns: 28% 20% 7% 23% 7% 15%;
+                font-size: 11px;
                 height: var(--header-height);
             }
 
             .container {
+                grid-template-columns: 100%;
+                grid-template-rows: 45% 55%;
                 margin-top: var(--header-height);
                 height: calc(100vh - var(--header-height) - var(--footer-height));
-            }
-
-            .soal,
-            .jawaban {
-                height: 50%;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 5px;
-            }
-
-            .footer-button button {
-                font-size: 14px;
-                max-width: 120px;
-            }
-
-            .question-list-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .pertanyaan img,
-            .jawaban-gambar,
-            .review-image {
-                max-width: 90%;
-            }
-
-            .text-box,
-            .text-box-2 {
-                max-width: 95%;
-                padding: 10px;
-            }
-        }
-
-        @media screen and (orientation: landscape) and (max-width: 992px) {
-            .container {
-                grid-template-columns: 55% 45%;
-                grid-template-rows: 1fr;
-                height: calc(100vh - var(--header-height) - var(--footer-height));
-            }
-
-            .soal,
-            .jawaban {
-                height: 100%;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
+                height: calc(100svh - var(--header-height) - var(--footer-height));
             }
 
             .soal {
-                padding-right: 5px;
-            }
-
-            .jawaban {
-                padding-left: 5px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-left: 10px;
             }
 
             .pertanyaan img,
             .jawaban-gambar,
             .review-image {
-                max-width: 80%;
+                max-width: 85%;
+                max-height: 20vh;
             }
 
-            .text-box,
-            .text-box-2 {
-                max-width: 90%;
-            }
-        }
-
-        @media screen and (orientation: portrait) and (max-width: 768px) {
-            .container {
-                grid-template-columns: 100%;
-                grid-template-rows: 1fr 1fr;
-                height: calc(100vh - var(--header-height) - var(--footer-height));
+            .text-box, .text-box-2 {
+                max-width: 95%;
+                margin: 8px auto;
             }
 
-            .soal,
-            .jawaban {
-                height: 50%;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 5px;
-            }
-        }
-
-        @media screen and (min-width: 993px) {
-            :root {
-                --base-font-size: 24px;
-                --heading-scale: 1.4;
-            }
-
-            body {
-                font-size: var(--base-font-size);
-                line-height: 1.7;
-            }
-
-            .review-question {
-                max-width: 1000px;
-                margin: 40px auto;
-                padding: 40px;
-            }
-
-            .pertanyaan h3 {
-                font-size: calc(var(--base-font-size));
-                margin-bottom: 30px;
-            }
-
-            .pertanyaan p {
-                font-size: calc(var(--base-font-size) * 1.1);
-            }
-
-            .deskripsi-soal {
-                font-size: calc(var(--base-font-size) * 1.1);
-            }
-
-            .text-box,
-            .text-box-2 {
-                font-size: calc(var(--base-font-size) * 1.1);
-                padding: 20px;
-            }
-
-            .teks-jawaban {
-                font-size: calc(var(--base-font-size) * 1.1);
-            }
-
-            .jawaban {
-                font-size: calc(var(--base-font-size) * 1.1);
+            .footer-button {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                grid-template-rows: auto auto !important;
+                height: var(--footer-height) !important;
+                padding: 6px !important;
+                gap: 6px !important;
             }
 
             .footer-button button {
-                font-size: calc(var(--base-font-size) * 0.9);
+                font-size: 14px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 36px !important;
+                border: 1px solid var(--border-color) !important;
+                border-radius: 4px !important;
+                box-sizing: border-box !important;
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
             }
 
-            .lingkaran {
-                font-size: calc(var(--base-font-size) * 0.9);
-                width: 40px;
-                height: 40px;
+            .footer-button button:first-child {
+                grid-row: 2 !important;
+                grid-column: 1 !important;
             }
 
-            .review-question-content,
-            .review-option-content {
-                font-size: calc(var(--base-font-size) * 1.1);
+            .footer-button button:last-child {
+                grid-row: 2 !important;
+                grid-column: 2 !important;
             }
 
-            .review-option {
-                font-size: calc(var(--base-font-size) * 1.1);
+            .footer-button .tengah {
+                grid-row: 1 !important;
+                grid-column: 1 / span 2 !important;
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 2px 0 !important;
+                pointer-events: auto !important; 
+            }
+        }
+
+        @media screen and (max-width: 992px) and (orientation: landscape) {
+            :root {
+                --base-font-size: 18px; 
+                --header-height: 38px;
+                --footer-height: 42px;
             }
 
-            .audio-transcript {
-                font-size: 20px;
+            .header-bar {
+                grid-template-columns: 30% 20% 5% 25% 5% 15%;
+                font-size: 15px;
+                height: var(--header-height);
+            }
+
+            .container {
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 1fr;
+                margin-top: var(--header-height);
+                height: calc(100vh - var(--header-height) - var(--footer-height));
+                height: calc(100svh - var(--header-height) - var(--footer-height));
+            }
+
+            .soal, .jawaban {
+                height: 100%;
+            }
+
+            .pertanyaan img,
+            .jawaban-gambar,
+            .review-image {
+                max-width: 60%;
+                max-height: 30vh;
+            }
+
+            .text-box, .text-box-2 {
+                max-width: 95%;
+                margin: 5px auto;
+                padding: 8px;
+            }
+
+            .footer-button button {
+                font-size: 15px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .header-bar {
+                font-size: 9px;
+            }
+            .footer-button button {
+                font-size: 11px;
+            }
+            .footer-button .tengah {
+                max-width: calc(100% - 150px);
             }
         }
 
@@ -926,7 +806,6 @@
 
     <script src="https://unpkg.com/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
     <script>
-
         let panzoomInstance;
         let currentQuestion = 1;
         const totalQuestions = 40;
@@ -949,65 +828,46 @@
         const userAnswers = {};
         let score = 0;
         const audioTranscripts = {
-
+        
             "21": "침대가 있어요?",
-
             "22": "복숭아부터 땁시다",
-
             "23": "배합 사료랑 조사료를같이 주면 될까요?",
-
             "24": "한국에서 야구 경기장에 처음 왔지요?",
-
             "25": "이것은 무엇입니까?",
             "25-0": "서비스업입니다",
             "25-1": "조선업입니다",
             "25-2": "임업입니다",
             "25-3": "광업입니다",
-
             "26": "여기는 어디입니까 ?",
             "26-0": "프로팀입니다",
             "26-1": "응원단입니다",
             "26-2": "관중석입니다",
             "26-3": "응원가입니다",
-
             "27": " 사람은 무엇을 하고 있습니까?",
             "27-0": "양식장을 청소하고 있습니다",
             "27-1": "어류를 선별하고 있습니다",
             "27-2": "그물을 손질하고 있습니다",
             "27-3": "수질을 측정하고 있습니다",
-
             "28": "봉투가 얼마나 있습니까?",
             "28-0": "2 장 있습니다",
             "28-1": "3 장 있습니다",
             "28-2": "2 권 있습니다",
             "28-3": "3 권 있습니다",
-
             "29": "보건소는 어디에 있습니까?",
             "29-0": "은행 옆에 있습니다",
             "29-1": "은행 건너편에 있습니다",
             "29-2": "병원 뒤에 있습니다",
             "29-3": "병원 건너편에 있습니다",
-
             "30": "이 안경은 어때요?",
-
             "31": "그물 위치를 확인했으니 양망기를 준비하고 로프를 연결해 주세요.",
-
             "32": "여보세요 라흐만 씨, 약국은 밤에 문을 닫지요?",
-
             "33": "라민 씨, 방학에 뭐 할 거예요?",
-
             "34": "이림 씨는 무슨 계절을 좋아해요?",
-
             "35": "푸캄 씨, 지허촐에서 큰 소리로 떠들면 안 돼요.",
-
             "36": "여 : 닭 한 마리에 얼마예요?<br>남 : 5,000 원입니다.",
-
             "37": "여 : 여보세요, 민수 씨 지금 뭐 하세요?<br>남 : 누워서 텔레비전을 보고 있어요.",
-
             "38": "여 : 안녕하세요. 게시판을 보고 전화 드렸어요. 방에 어떤 것 들이 있나요?<br>남 : 네, 방에는 침대, 에어컨, 책상이 있어요. 컴퓨터가 있다면 인터넷은 무료고요.<br>여 : 인터넷이 무료라니 좋나요. 그러면 화장실은 따로 있나요?<br>남 : 당연하지요. 방마다 화장실이 하나씩 따로 있고 거기에서 샤워도 할 수 있어요. 직접 와서 보세요. 보시면 분명 마음에 들거예요.",
-
-            "39": "여 : 여보세요 준수 씨, 제가 조금 늦을 것 같아요.<br>남 : 그래요?  얼마나 늦는데요?<br>여 : 30 분 정도요. 정말 죄송해요. 늦잠을 잤어요.<br>남 : 괜찮아요. 그럼 30 분 늦게 1 시 반에 만나요.",
-
+            "39": "여 : 여보세요 준수 씨, 제가 조금 늦을 것 같아요.<br>남 : 그래요?  얼마 늦는데요?<br>여 : 30 분 정도요. 정말 죄송해요. 늦잠을 잤어요.<br>남 : 괜찮아요. 그럼 30 분 늦게 1 시 반에 만나요.",
             "40": "남 : 제주도에는 처음 왔어요. 정말 아름답네요.<br>여 : 그렇죠? 그럼 이제 제주도에 맛있는 음식을 먹으러 가요.<br>남 : 어! 벌써 시간이 많이 지났네요. 그래요, 빨리 밥 먹으러 가요.",
         };
 
@@ -1603,8 +1463,8 @@
                 }).join('')}
             </div>
         `;
-                jawabanDiv.insertAdjacentHTML('beforeend', answerHTML);
-            });
+                    jawabanDiv.insertAdjacentHTML('beforeend', answerHTML);
+                });
         }
 
         function updateCorrectAnswers() {
@@ -1639,44 +1499,37 @@
             const overlay = document.getElementById("zoomOverlay");
             const gambar = document.getElementById("gambarZoom");
 
-            overlay.style.zIndex = '100000';
+            overlay.style.zIndex = '1000000';
             overlay.style.display = "flex";
             document.body.style.overflow = "hidden";
             gambar.src = src;
+            
+            gambar.style.width = 'auto';
+            gambar.style.height = 'auto';
+            gambar.style.maxWidth = '100vw';
+            gambar.style.maxHeight = '100vh';
             gambar.style.transform = 'none';
-            gambar.style.maxWidth = 'none';
-            gambar.style.maxHeight = 'none';
+            gambar.style.touchAction = 'none'; 
 
             if (panzoomInstance) panzoomInstance.destroy();
 
             gambar.onload = function () {
-                const imgRatio = this.naturalWidth / this.naturalHeight;
-                const screenRatio = window.innerWidth / window.innerHeight;
-
-                if (imgRatio > screenRatio) {
-                    this.style.width = '90vw';
-                    this.style.height = 'auto';
-                } else {
-                    this.style.width = 'auto';
-                    this.style.height = '90vh';
-                }
-
                 panzoomInstance = Panzoom(this, {
                     maxScale: 5,
                     minScale: 0.8,
                     contain: 'outside',
-                    startScale: 1,
+                    startScale: 1.25,
                     step: 0.2,
                     animate: true,
                     duration: 200,
                     easing: 'ease-in-out',
-                    panOnlyWhenZoomed: true,
+                    panOnlyWhenZoomed: false,
                     disablePan: false,
                     disableZoom: false,
-                    disableXAxis: false,
-                    disableYAxis: false,
                     cursor: 'move'
                 });
+
+                this.parentElement.addEventListener('pointerdown', panzoomInstance.handleStart);
 
                 const zoomArea = document.querySelector('.zoom-area');
                 zoomArea.addEventListener('wheel', function (e) {
@@ -1749,13 +1602,14 @@
             const prevBtn = document.querySelector('.footer-button button:first-child');
             const nextBtn = document.querySelector('.footer-button button:last-child');
 
+            prevBtn.innerHTML = '<span style="font-size: 24px; font-weight: bold; line-height: 1;">&#10094;</span> &nbsp; Previous Question';
             prevBtn.disabled = currentQuestion === 1;
 
             if (currentQuestion === totalQuestions) {
-                nextBtn.textContent = "Finish";
+                nextBtn.innerHTML = 'Submit All';
                 nextBtn.onclick = finishQuiz;
             } else {
-                nextBtn.textContent = "Next Question";
+                nextBtn.innerHTML = 'Next Question &nbsp; <span style="font-size: 24px; font-weight: bold; line-height: 1;">&#10095;</span>';
                 nextBtn.onclick = nextQuestion;
             }
         }
@@ -1792,7 +1646,7 @@
             questionListOverlay.style.padding = '10px';
 
             const questionListContainer = document.createElement('div');
-            questionListContainer.style.backgroundColor = 'tranparent';
+            questionListContainer.style.backgroundColor = 'transparent';
             questionListContainer.style.padding = '20px';
             questionListContainer.style.paddingLeft = '30px';
             questionListContainer.style.paddingBottom = '20px';
@@ -1808,11 +1662,18 @@
 
             const sectionsContainer = document.createElement('div');
             sectionsContainer.style.display = 'flex';
-            sectionsContainer.style.gap = '10px';
-            sectionsContainer.style.justifyContent = 'space-between';
-            sectionsContainer.style.flexWrap = 'nowrap';
+            sectionsContainer.style.gap = '20px';
             sectionsContainer.style.width = '100%';
             sectionsContainer.style.boxSizing = 'border-box';
+
+            if (window.innerHeight > window.innerWidth && window.innerWidth <= 768) {
+                sectionsContainer.style.flexDirection = 'column';
+                sectionsContainer.style.alignItems = 'center';
+            } else {
+                sectionsContainer.style.flexDirection = 'row';
+                sectionsContainer.style.justifyContent = 'space-between';
+                sectionsContainer.style.flexWrap = 'nowrap';
+            }
 
             const readingSection = document.createElement('div');
             readingSection.style.flex = '1';
@@ -1887,6 +1748,7 @@
             sectionsContainer.appendChild(listeningSection);
 
             questionListContainer.appendChild(sectionsContainer);
+
             questionListOverlay.appendChild(questionListContainer);
             document.body.appendChild(questionListOverlay);
         }
@@ -1943,7 +1805,7 @@
             dialog.innerHTML = `
                 <div class="custom-dialog-content">
                     <h3>Konfirmasi</h3>
-                    <p>Apakah Anda yakin ingin menyelesaikan Ujian dan melihat hasil?</p>
+                    <p>Apakah Anda yakin sudah menjawab semua soal, dan ingin menyelesaikan Ujian?</p>
                     <div class="custom-dialog-buttons">
                         <button class="custom-dialog-button custom-dialog-cancel">Batal</button>
                         <button class="custom-dialog-button custom-dialog-confirm">Ya, Selesaikan</button>
@@ -2000,6 +1862,7 @@
                 <button id="reviewBtn" class="close-result-btn">Review All Answers</button>
             `;
 
+            resultOverlay.appendChild(resultContent);
             resultOverlay.appendChild(resultContent);
             document.body.appendChild(resultOverlay);
 
@@ -2435,7 +2298,6 @@
                     playIcon.style.opacity = '0.5';
                 }
             };
-
 
             currentAudio.play();
         }
