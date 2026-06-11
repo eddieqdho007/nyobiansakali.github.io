@@ -1504,11 +1504,12 @@
             document.body.style.overflow = "hidden";
             gambar.src = src;
             
+            // Reset style dasar gambar
             gambar.style.width = 'auto';
             gambar.style.height = 'auto';
             gambar.style.maxWidth = '100vw';
             gambar.style.maxHeight = '100vh';
-            gambar.style.transform = 'none';
+            gambar.style.transform = 'scale(1.25)'; // Langsung diperbesar sedikit saat diklik
             gambar.style.touchAction = 'none'; 
 
             if (panzoomInstance) panzoomInstance.destroy();
@@ -1519,27 +1520,52 @@
                     minScale: 0.8,
                     contain: 'outside',
                     startScale: 1.25,
-                    touchAction: 'none',
                     step: 0.2,
-                    animate: true,
-                    duration: 200,
-                    easing: 'ease-in-out',
+                    animate: false, // Matikan animasi agar respon di WebView instan & lancar
                     panOnlyWhenZoomed: false,
                     disablePan: false,
-                    disableZoom: false,
-                    cursor: 'move'
+                    disableZoom: false
                 });
+
+                const zoomArea = document.querySelector('.zoom-area');
+
+                zoomArea.addEventListener('touchstart', function (e) {
+                    if (e.touches.length === 2) {
+                        // Hitung jarak awal antara 2 jari saat pertama menyentuh layar
+                        pinchStartDist = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                    }
+                }, { passive: true });
+
+                zoomArea.addEventListener('touchmove', function (e) {
+                    if (e.touches.length === 2) {
+                        e.preventDefault();
+                        
+                        const currentDist = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        
+                        const delta = currentDist / pinchStartDist;
+                        const currentScale = panzoomInstance.getScale();
+                        
+                        let newScale = currentScale * (delta > 1 ? 1.05 : 0.95);
+                        
+                        if (newScale > 5) newScale = 5;
+                        if (newScale < 0.8) newScale = 0.8;
+
+                        panzoomInstance.zoom(newScale);
+                        pinchStartDist = currentDist;
+                    }
+                }, { passive: false });
 
                 this.parentElement.addEventListener('pointerdown', panzoomInstance.handleStart);
 
-                const zoomArea = document.querySelector('.zoom-area');
                 zoomArea.addEventListener('wheel', function (e) {
                     e.preventDefault();
                     panzoomInstance.zoomWithWheel(e);
-                }, { passive: false });
-
-                zoomArea.addEventListener('touchmove', function (e) {
-                    if (e.touches.length === 2) e.preventDefault();
                 }, { passive: false });
             };
         }
@@ -1548,6 +1574,7 @@
             const overlay = document.getElementById("zoomOverlay");
             overlay.style.display = "none";
             document.body.style.overflow = "auto";
+            pinchStartDist = 0;
             if (panzoomInstance) {
                 panzoomInstance.destroy();
                 panzoomInstance = null;
