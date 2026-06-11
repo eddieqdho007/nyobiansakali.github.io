@@ -1508,27 +1508,34 @@
             document.body.style.overflow = "hidden";
             gambar.src = src;
             
-            // Reset posisi dan skala gambar ke kondisi awal
-            currentScale = 1.25; 
+            currentScale = 1; 
             translateX = 0;
             translateY = 0;
+            
+            gambar.style.width = '100vw';
+            gambar.style.height = '100vh';
+            gambar.style.maxWidth = '100vw';
+            gambar.style.maxHeight = '100vh';
+            gambar.style.objectFit = 'contain';
+            gambar.style.transition = 'none';
+            
             updateGambarTransform();
 
-            // Pasang pendeteksi sentuhan jari khusus WebView Android
             const zoomArea = document.querySelector('.zoom-area');
             
-            // 1. GESTURE CUBIT (ZOOM)
             zoomArea.ontouchstart = function(e) {
                 if (e.touches.length === 2) {
+                    isDragging = false;
                     startDist = Math.hypot(
                         e.touches[0].pageX - e.touches[1].pageX,
                         e.touches[0].pageY - e.touches[1].pageY
                     );
                 } else if (e.touches.length === 1) {
-                    // Siap-siap untuk geser gambar (drag)
-                    isDragging = true;
-                    startX = e.touches[0].pageX - translateX;
-                    startY = e.touches[0].pageY - translateY;
+                    if (currentScale > 1) {
+                        isDragging = true;
+                        startX = e.touches[0].pageX - translateX;
+                        startY = e.touches[0].pageY - translateY;
+                    }
                 }
             };
 
@@ -1540,18 +1547,19 @@
                         e.touches[0].pageY - e.touches[1].pageY
                     );
                     
-                    // Hitung perubahan jarak cubitan jari
                     const delta = currentDist / startDist;
                     currentScale = currentScale * (delta > 1 ? 1.04 : 0.96);
                     
-                    // Batasi perbesaran (Min 1x, Maks 5x)
                     if (currentScale < 1) currentScale = 1;
                     if (currentScale > 5) currentScale = 5;
+                    if (currentScale <= 1.02) {
+                        translateX = 0;
+                        translateY = 0;
+                    }
 
                     updateGambarTransform();
                     startDist = currentDist;
                 } else if (e.touches.length === 1 && isDragging) {
-                    // PROSES GESER GAMBAR JIKA SUDAH DI-ZOOM
                     e.preventDefault();
                     translateX = e.touches[0].pageX - startX;
                     translateY = e.touches[0].pageY - startY;
@@ -1561,13 +1569,24 @@
 
             zoomArea.ontouchend = function(e) {
                 if (e.touches.length < 2) startDist = 0;
-                if (e.touches.length === 0) isDragging = false;
+                
+                if (e.touches.length === 0) {
+                    isDragging = false;
+                    if (currentScale <= 1.05) {
+                        currentScale = 1;
+                        translateX = 0;
+                        translateY = 0;
+                        
+                        gambar.style.transition = 'transform 0.2s ease-out';
+                        updateGambarTransform();
+                        setTimeout(() => { gambar.style.transition = 'none'; }, 200);
+                    }
+                }
             };
         }
 
         function updateGambarTransform() {
             const gambar = document.getElementById("gambarZoom");
-            // Terapkan perbesaran dan pergeseran gambar sekaligus lewat CSS Transform
             gambar.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
         }
 
@@ -1577,7 +1596,6 @@
             document.body.style.overflow = "auto";
             isDragging = false;
         }
-
         function showQuestion(questionNumber) {
             if (questionNumber < 1) questionNumber = 1;
             if (questionNumber > totalQuestions) questionNumber = totalQuestions;
