@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Quiz 40 Questions</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -171,11 +171,11 @@
         }
 
         .zoom-area img {
+            width: 100%;
+            height: auto;
             max-width: 100vw;
             max-height: 100vh;
             object-fit: contain;
-            transition: transform 0.25s ease;
-            touch-action: none;
         }
 
         .btn-tutup {
@@ -804,9 +804,8 @@
         <button onclick="nextQuestion()">Next Question</button>
     </div>
 
-    <script src="https://unpkg.com/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
     <script>
-        let panzoomInstance;
+		let pinchStartDist = 0;
         let currentQuestion = 1;
         const totalQuestions = 40;
         let remainingQuestions = 40;
@@ -1503,82 +1502,13 @@
             overlay.style.display = "flex";
             document.body.style.overflow = "hidden";
             gambar.src = src;
-            
-            // Reset style dasar gambar
-            gambar.style.width = 'auto';
-            gambar.style.height = 'auto';
-            gambar.style.maxWidth = '100vw';
-            gambar.style.maxHeight = '100vh';
-            gambar.style.transform = 'scale(1.25)'; // Langsung diperbesar sedikit saat diklik
-            gambar.style.touchAction = 'none'; 
-
-            if (panzoomInstance) panzoomInstance.destroy();
-
-            gambar.onload = function () {
-                panzoomInstance = Panzoom(this, {
-                    maxScale: 5,
-                    minScale: 0.8,
-                    contain: 'outside',
-                    startScale: 1.25,
-                    step: 0.2,
-                    animate: false, // Matikan animasi agar respon di WebView instan & lancar
-                    panOnlyWhenZoomed: false,
-                    disablePan: false,
-                    disableZoom: false
-                });
-
-                const zoomArea = document.querySelector('.zoom-area');
-
-                zoomArea.addEventListener('touchstart', function (e) {
-                    if (e.touches.length === 2) {
-                        // Hitung jarak awal antara 2 jari saat pertama menyentuh layar
-                        pinchStartDist = Math.hypot(
-                            e.touches[0].pageX - e.touches[1].pageX,
-                            e.touches[0].pageY - e.touches[1].pageY
-                        );
-                    }
-                }, { passive: true });
-
-                zoomArea.addEventListener('touchmove', function (e) {
-                    if (e.touches.length === 2) {
-                        e.preventDefault();
-                        
-                        const currentDist = Math.hypot(
-                            e.touches[0].pageX - e.touches[1].pageX,
-                            e.touches[0].pageY - e.touches[1].pageY
-                        );
-                        
-                        const delta = currentDist / pinchStartDist;
-                        const currentScale = panzoomInstance.getScale();
-                        
-                        let newScale = currentScale * (delta > 1 ? 1.05 : 0.95);
-                        
-                        if (newScale > 5) newScale = 5;
-                        if (newScale < 0.8) newScale = 0.8;
-
-                        panzoomInstance.zoom(newScale);
-                        pinchStartDist = currentDist;
-                    }
-                }, { passive: false });
-
-                this.parentElement.addEventListener('pointerdown', panzoomInstance.handleStart);
-
-                zoomArea.addEventListener('wheel', function (e) {
-                    e.preventDefault();
-                    panzoomInstance.zoomWithWheel(e);
-                }, { passive: false });
-            };
+            gambar.style.transform = 'none';
         }
 
         function tutupZoom() {
             const overlay = document.getElementById("zoomOverlay");
             overlay.style.display = "none";
             document.body.style.overflow = "auto";
-            pinchStartDist = 0;
-            if (panzoomInstance) {
-                panzoomInstance.destroy();
-                panzoomInstance = null;
-            }
         }
 
         function showQuestion(questionNumber) {
