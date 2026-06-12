@@ -7,11 +7,11 @@
   <title>Simulasi Ujian EPS-TOPIK</title>
   <style>
     :root {
-      --primary-color: rgba(255, 255, 255, 0.1);
-      --secondary-color: rgba(255, 255, 255, 0.05);
-      --hover-color: rgba(255, 255, 255, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.06);
+      --glass-bg-hover: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.15);
       --text-color: #ffffff;
-      --light-text: #b0b3b8;
+      --light-text: rgba(255, 255, 255, 0.65);
     }
 
     * {
@@ -22,131 +22,267 @@
     }
 
     body {
-      font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+
       min-height: 100vh;
-      background: linear-gradient(180deg, #121212 0%, #1B2835 50%, #121212 100%);
+      padding: 15px;
+
+      background: linear-gradient(180deg,
+          #121212 0%,
+          #1B2835 50%,
+          #121212 100%);
+
       color: var(--text-color);
-      text-align: center;
-      padding: 30px 15px;
+
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+    }
+
+    body::before {
+      width: 420px;
+      height: 420px;
+      top: -120px;
+      left: -120px;
+      background: rgba(0, 180, 255, 0.18);
+    }
+
+    body::after {
+      width: 380px;
+      height: 380px;
+      bottom: -100px;
+      right: -100px;
+      background: rgba(0, 90, 255, 0.18);
     }
 
     .container {
       width: 100%;
-      max-width: 500px;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      
-      padding: 35px 25px 20px;
+      max-width: 1200px;
+      height: 92vh;
+
       display: flex;
       flex-direction: column;
-      height: 90vh;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      overflow: hidden;
+
+      padding: 25px;
+
+      background: rgba(255, 255, 255, 0.05);
+
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+
+      border-radius: 30px;
+
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
     }
 
     h1 {
-      font-size: 1.4rem;
-      margin-bottom: 20px;
-      color: var(--text-color);
-      font-weight: 600;
+      text-align: center;
+      color: #fff;
+
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 700;
+
       letter-spacing: 1px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+      margin-bottom: 18px;
+    }
+
+    .garis-1,
+    .garis-2 {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .scrollable-buttons {
       flex: 1;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-      padding: 10px 5px;
-      margin-bottom: 1px;
-      margin-top: 1px;
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
+
+      overflow-y: auto;
+
+      padding: 10px 4px;
+
+      margin: 8px 0;
+
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, .25) transparent;
     }
 
     .scrollable-buttons::-webkit-scrollbar {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      background: transparent !important;
+      width: 6px;
+    }
+
+    .scrollable-buttons::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollable-buttons::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .25);
+      border-radius: 999px;
     }
 
     .buttons-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
       gap: 12px;
       width: 100%;
-      margin-bottom: 10px;
-      margin-top: 10px;
-      padding-bottom: 20px;
     }
 
     .btn {
-      aspect-ratio: 1/1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+
+      position: relative;
+
+      border-radius: 18px;
+
+      border: 1px solid var(--glass-border);
+
+      background: var(--glass-bg);
+
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+
+      color: #fff;
+
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2);
+
+      transition: all .3s ease;
+
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .btn.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+
+      filter: grayscale(0.7);
+    }
+
+    .btn.disabled:hover {
+      transform: none;
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .btn::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      right: 0;
+
+      height: 45%;
+
+      border-radius: 18px 18px 50% 50%;
+
+      background: linear-gradient(to bottom,
+          rgba(255, 255, 255, .18),
+          transparent);
+
+      pointer-events: none;
+    }
+
+    .btn span {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 700;
+
+      color: #fff;
     }
 
     .btn:hover {
-      background: var(--hover-color);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 8px 20px rgba(27, 40, 53, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      transform: translateY(-4px) scale(1.04);
+
+      background: var(--glass-bg-hover);
+
+      border-color: rgba(255, 255, 255, .28);
+
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, .35),
+        0 0 20px rgba(0, 150, 255, .18);
     }
 
     .btn:active {
-      transform: translateY(-1px) scale(0.98);
-    }
-
-    .btn:disabled {
-      opacity: 0.25;
-      background: rgba(255, 255, 255, 0.02);
-      color: rgba(255, 255, 255, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: none;
-      cursor: not-allowed;
-      pointer-events: none;
-      transform: none !important;
+      transform: scale(0.97);
     }
 
     .footer {
-      margin-top: auto;
+      text-align: center;
+
       color: var(--light-text);
-      font-size: 0.8rem;
-      padding-top: 20px;
-      opacity: 0.8;
+
+      font-size: .85rem;
+
+      padding-top: 15px;
     }
 
-    @media (max-width: 350px) {
+    @media (max-width: 480px) {
+
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        height: 95vh;
+        padding: 18px;
+        border-radius: 24px;
+      }
+
       .buttons-grid {
-        gap: 8px;
+        grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+        gap: 10px;
       }
 
-      .btn {
-        font-size: 1rem;
+      body::before {
+        width: 260px;
+        height: 260px;
+      }
+
+      body::after {
+        width: 240px;
+        height: 240px;
       }
     }
 
-    .garis-1, .garis-2 {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    @media (min-width: 481px) and (max-width: 768px) {
+      .buttons-grid {
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+      }
+    }
+
+    @media (min-width: 1400px) {
+      .buttons-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      }
     }
   </style>
 </head>
@@ -158,113 +294,126 @@
 
     <div class="scrollable-buttons">
       <div class="buttons-grid">
-        <button class="btn" onclick="window.location.href='page1.html'">1</button>
-        <button class="btn" onclick="window.location.href='page2.html'">2</button>
-        <button class="btn" onclick="window.location.href='page3.html'">3</button>
-        <button class="btn" onclick="window.location.href='page4.html'">4</button>
-        <button class="btn" onclick="window.location.href='page5.html'">5</button>
-        
-        <button class="btn" disabled>6</button>
-        <button class="btn" disabled>7</button>
-        <button class="btn" disabled>8</button>
-        <button class="btn" disabled>9</button>
-        <button class="btn" disabled>10</button>
-        <button class="btn" disabled>11</button>
-        <button class="btn" disabled>12</button>
-        <button class="btn" disabled>13</button>
-        <button class="btn" disabled>14</button>
-        <button class="btn" disabled>15</button>
-        <button class="btn" disabled>16</button>
-        <button class="btn" disabled>17</button>
-        <button class="btn" disabled>18</button>
-        <button class="btn" disabled>19</button>
-        <button class="btn" disabled>20</button>
-        <button class="btn" disabled>21</button>
-        <button class="btn" disabled>22</button>
-        <button class="btn" disabled>23</button>
-        <button class="btn" disabled>24</button>
-        <button class="btn" disabled>25</button>
-        <button class="btn" disabled>26</button>
-        <button class="btn" disabled>27</button>
-        <button class="btn" disabled>28</button>
-        <button class="btn" disabled>29</button>
-        <button class="btn" disabled>30</button>
-        <button class="btn" disabled>31</button>
-        <button class="btn" disabled>32</button>
-        <button class="btn" disabled>33</button>
-        <button class="btn" disabled>34</button>
-        <button class="btn" disabled>35</button>
-        <button class="btn" disabled>36</button>
-        <button class="btn" disabled>37</button>
-        <button class="btn" disabled>38</button>
-        <button class="btn" disabled>39</button>
-        <button class="btn" disabled>40</button>
-        <button class="btn" disabled>41</button>
-        <button class="btn" disabled>42</button>
-        <button class="btn" disabled>43</button>
-        <button class="btn" disabled>44</button>
-        <button class="btn" disabled>45</button>
-        <button class="btn" disabled>46</button>
-        <button class="btn" disabled>47</button>
-        <button class="btn" disabled>48</button>
-        <button class="btn" disabled>49</button>
-        <button class="btn" disabled>50</button>
-        <button class="btn" disabled>51</button>
-        <button class="btn" disabled>52</button>
-        <button class="btn" disabled>53</button>
-        <button class="btn" disabled>54</button>
-        <button class="btn" disabled>55</button>
-        <button class="btn" disabled>56</button>
-        <button class="btn" disabled>57</button>
-        <button class="btn" disabled>58</button>
-        <button class="btn" disabled>59</button>
-        <button class="btn" disabled>60</button>
-        <button class="btn" disabled>61</button>
-        <button class="btn" disabled>62</button>
-        <button class="btn" disabled>63</button>
-        <button class="btn" disabled>64</button>
-        <button class="btn" disabled>65</button>
-        <button class="btn" disabled>66</button>
-        <button class="btn" disabled>67</button>
-        <button class="btn" disabled>68</button>
-        <button class="btn" disabled>69</button>
-        <button class="btn" disabled>70</button>
-        <button class="btn" disabled>71</button>
-        <button class="btn" disabled>72</button>
-        <button class="btn" disabled>73</button>
-        <button class="btn" disabled>74</button>
-        <button class="btn" disabled>75</button>
-        <button class="btn" disabled>76</button>
-        <button class="btn" disabled>77</button>
-        <button class="btn" disabled>78</button>
-        <button class="btn" disabled>79</button>
-        <button class="btn" disabled>80</button>
-        <button class="btn" disabled>81</button>
-        <button class="btn" disabled>82</button>
-        <button class="btn" disabled>83</button>
-        <button class="btn" disabled>84</button>
-        <button class="btn" disabled>85</button>
-        <button class="btn" disabled>86</button>
-        <button class="btn" disabled>87</button>
-        <button class="btn" disabled>88</button>
-        <button class="btn" disabled>89</button>
-        <button class="btn" disabled>90</button>
-        <button class="btn" disabled>91</button>
-        <button class="btn" disabled>92</button>
-        <button class="btn" disabled>93</button>
-        <button class="btn" disabled>94</button>
-        <button class="btn" disabled>95</button>
-        <button class="btn" disabled>96</button>
-        <button class="btn" disabled>97</button>
-        <button class="btn" disabled>98</button>
-        <button class="btn" disabled>99</button>
-        <button class="btn" disabled>100</button>
+        <button class="btn" onclick="window.location.href='page1.html'"><span>1</span></button>
+        <button class="btn" onclick="window.location.href='page2.html'"><span>2</span></button>
+        <button class="btn" onclick="window.location.href='page3.html'"><span>3</span></button>
+        <button class="btn" onclick="window.location.href='page4.html'"><span>4</span></button>
+        <button class="btn" onclick="window.location.href='page5.html'"><span>5</span></button>
+        <button class="btn" onclick="window.location.href='page6.html'"><span>6</span></button>
+        <button class="btn" onclick="window.location.href='page7.html'"><span>7</span></button>
+        <button class="btn" onclick="window.location.href='page8.html'"><span>8</span></button>
+        <button class="btn" onclick="window.location.href='page9.html'"><span>9</span></button>
+        <button class="btn" onclick="window.location.href='page10.html'"><span>10</span></button>
+        <button class="btn" onclick="window.location.href='page11.html'"><span>11</span></button>
+        <button class="btn" onclick="window.location.href='page12.html'"><span>12</span></button>
+        <button class="btn" onclick="window.location.href='page13.html'"><span>13</span></button>
+        <button class="btn" onclick="window.location.href='page14.html'"><span>14</span></button>
+        <button class="btn" onclick="window.location.href='page15.html'"><span>15</span></button>
+        <button class="btn" onclick="window.location.href='page16.html'"><span>16</span></button>
+        <button class="btn" onclick="window.location.href='page17.html'"><span>17</span></button>
+        <button class="btn" onclick="window.location.href='page18.html'"><span>18</span></button>
+        <button class="btn" onclick="window.location.href='page19.html'"><span>19</span></button>
+        <button class="btn" onclick="window.location.href='page20.html'"><span>20</span></button>
+        <button class="btn" onclick="window.location.href='page21.html'"><span>21</span></button>
+        <button class="btn" onclick="window.location.href='page22.html'"><span>22</span></button>
+        <button class="btn" onclick="window.location.href='page23.html'"><span>23</span></button>
+        <button class="btn" onclick="window.location.href='page24.html'"><span>24</span></button>
+        <button class="btn" onclick="window.location.href='page25.html'"><span>25</span></button>
+        <button class="btn" onclick="window.location.href='page26.html'"><span>26</span></button>
+        <button class="btn" onclick="window.location.href='page27.html'"><span>27</span></button>
+        <button class="btn" onclick="window.location.href='page28.html'"><span>28</span></button>
+        <button class="btn" onclick="window.location.href='page29.html'"><span>29</span></button>
+        <button class="btn" onclick="window.location.href='page30.html'"><span>30</span></button>
+        <button class="btn" onclick="window.location.href='page31.html'"><span>31</span></button>
+        <button class="btn" onclick="window.location.href='page32.html'"><span>32</span></button>
+        <button class="btn" onclick="window.location.href='page33.html'"><span>33</span></button>
+        <button class="btn" onclick="window.location.href='page34.html'"><span>34</span></button>
+        <button class="btn" onclick="window.location.href='page35.html'"><span>35</span></button>
+        <button class="btn" onclick="window.location.href='page36.html'"><span>36</span></button>
+        <button class="btn" onclick="window.location.href='page37.html'"><span>37</span></button>
+        <button class="btn" onclick="window.location.href='page38.html'"><span>38</span></button>
+        <button class="btn" onclick="window.location.href='page39.html'"><span>39</span></button>
+        <button class="btn" onclick="window.location.href='page40.html'"><span>40</span></button>
+        <button class="btn" onclick="window.location.href='page41.html'"><span>41</span></button>
+        <button class="btn" onclick="window.location.href='page42.html'"><span>42</span></button>
+        <button class="btn" onclick="window.location.href='page43.html'"><span>43</span></button>
+        <button class="btn" onclick="window.location.href='page44.html'"><span>44</span></button>
+        <button class="btn" onclick="window.location.href='page45.html'"><span>45</span></button>
+        <button class="btn" onclick="window.location.href='page46.html'"><span>46</span></button>
+        <button class="btn" onclick="window.location.href='page47.html'"><span>47</span></button>
+        <button class="btn" onclick="window.location.href='page48.html'"><span>48</span></button>
+        <button class="btn" onclick="window.location.href='page49.html'"><span>49</span></button>
+        <button class="btn" onclick="window.location.href='page50.html'"><span>50</span></button>
+        <button class="btn" onclick="window.location.href='page51.html'"><span>51</span></button>
+        <button class="btn" onclick="window.location.href='page52.html'"><span>52</span></button>
+        <button class="btn" onclick="window.location.href='page53.html'"><span>53</span></button>
+        <button class="btn" onclick="window.location.href='page54.html'"><span>54</span></button>
+        <button class="btn" onclick="window.location.href='page55.html'"><span>55</span></button>
+        <button class="btn" onclick="window.location.href='page56.html'"><span>56</span></button>
+        <button class="btn" onclick="window.location.href='page57.html'"><span>57</span></button>
+        <button class="btn" onclick="window.location.href='page58.html'"><span>58</span></button>
+        <button class="btn" onclick="window.location.href='page59.html'"><span>59</span></button>
+        <button class="btn" onclick="window.location.href='page60.html'"><span>60</span></button>
+        <button class="btn" onclick="window.location.href='page61.html'"><span>61</span></button>
+        <button class="btn" onclick="window.location.href='page62.html'"><span>62</span></button>
+        <button class="btn" onclick="window.location.href='page63.html'"><span>63</span></button>
+        <button class="btn" onclick="window.location.href='page64.html'"><span>64</span></button>
+        <button class="btn" onclick="window.location.href='page65.html'"><span>65</span></button>
+        <button class="btn" onclick="window.location.href='page66.html'"><span>66</span></button>
+        <button class="btn" onclick="window.location.href='page67.html'"><span>67</span></button>
+        <button class="btn" onclick="window.location.href='page68.html'"><span>68</span></button>
+        <button class="btn" onclick="window.location.href='page69.html'"><span>69</span></button>
+        <button class="btn" onclick="window.location.href='page70.html'"><span>70</span></button>
+        <button class="btn" onclick="window.location.href='page71.html'"><span>71</span></button>
+        <button class="btn" onclick="window.location.href='page72.html'"><span>72</span></button>
+        <button class="btn" onclick="window.location.href='page73.html'"><span>73</span></button>
+        <button class="btn" onclick="window.location.href='page74.html'"><span>74</span></button>
+        <button class="btn" onclick="window.location.href='page75.html'"><span>75</span></button>
+        <button class="btn" onclick="window.location.href='page76.html'"><span>76</span></button>
+        <button class="btn" onclick="window.location.href='page77.html'"><span>77</span></button>
+        <button class="btn" onclick="window.location.href='page78.html'"><span>78</span></button>
+        <button class="btn" onclick="window.location.href='page79.html'"><span>79</span></button>
+        <button class="btn" onclick="window.location.href='page80.html'"><span>80</span></button>
+        <button class="btn" onclick="window.location.href='page81.html'"><span>81</span></button>
+        <button class="btn" onclick="window.location.href='page82.html'"><span>82</span></button>
+        <button class="btn" onclick="window.location.href='page83.html'"><span>83</span></button>
+        <button class="btn" onclick="window.location.href='page84.html'"><span>84</span></button>
+        <button class="btn" onclick="window.location.href='page85.html'"><span>85</span></button>
+        <button class="btn" onclick="window.location.href='page86.html'"><span>86</span></button>
+        <button class="btn" onclick="window.location.href='page87.html'"><span>87</span></button>
+        <button class="btn" onclick="window.location.href='page88.html'"><span>88</span></button>
+        <button class="btn" onclick="window.location.href='page89.html'"><span>89</span></button>
+        <button class="btn" onclick="window.location.href='page90.html'"><span>90</span></button>
+        <button class="btn" onclick="window.location.href='page91.html'"><span>91</span></button>
+        <button class="btn" onclick="window.location.href='page92.html'"><span>92</span></button>
+        <button class="btn" onclick="window.location.href='page93.html'"><span>93</span></button>
+        <button class="btn" onclick="window.location.href='page94.html'"><span>94</span></button>
+        <button class="btn" onclick="window.location.href='page95.html'"><span>95</span></button>
+        <button class="btn" onclick="window.location.href='page96.html'"><span>96</span></button>
+        <button class="btn" onclick="window.location.href='page97.html'"><span>97</span></button>
+        <button class="btn" onclick="window.location.href='page98.html'"><span>98</span></button>
+        <button class="btn" onclick="window.location.href='page99.html'"><span>99</span></button>
+        <button class="btn" onclick="window.location.href='page100.html'"><span>100</span></button>
       </div>
     </div>
 
     <div class="garis garis-2"></div>
     <p class="footer">UBT Eps-Topik</p>
   </div>
+
+  <script>
+    document.querySelectorAll('.btn').forEach(btn => {
+      const nomor = parseInt(btn.textContent);
+
+      if (nomor >= 6) {
+        btn.classList.add('disabled');
+        btn.removeAttribute('onclick');
+
+        btn.querySelector('span').innerHTML = nomor + '<br>🔒';
+      }
+    });
+  </script>
+
 </body>
 
 </html>
