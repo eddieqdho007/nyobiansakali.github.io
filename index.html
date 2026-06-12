@@ -18,6 +18,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -46,6 +47,7 @@
       flex-direction: column;
       height: 90vh;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      overflow: hidden;
     }
 
     h1 {
@@ -59,10 +61,20 @@
 
     .scrollable-buttons {
       flex: 1;
-      overflow-y: auto;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
       padding: 10px 5px;
       margin-bottom: 1px;
       margin-top: 1px;
+      scrollbar-width: none; 
+      -ms-overflow-style: none; 
+    }
+
+    .scrollable-buttons::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
     }
 
     .buttons-grid {
@@ -72,6 +84,7 @@
       width: 100%;
       margin-bottom: 10px;
       margin-top: 10px;
+      padding-bottom: 20px;
     }
 
     .btn {
@@ -103,10 +116,10 @@
       transform: translateY(-1px) scale(0.98);
     }
 
-    .btn:disabled, .disabled-btn {
+    .btn:disabled {
       opacity: 0.25;
       background: rgba(255, 255, 255, 0.02);
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: none;
       cursor: not-allowed;
@@ -120,24 +133,6 @@
       font-size: 0.8rem;
       padding-top: 20px;
       opacity: 0.8;
-    }
-
-    .scrollable-buttons::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .scrollable-buttons::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 10px;
-    }
-
-    .scrollable-buttons::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-    }
-
-    .scrollable-buttons::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.25);
     }
 
     @media (max-width: 350px) {
@@ -163,106 +158,107 @@
 
     <div class="scrollable-buttons">
       <div class="buttons-grid">
-        <button class="btn" onclick="window.location.href='page1.html'"><span>1</span></button>
-        <button class="btn" onclick="window.location.href='page2.html'"><span>2</span></button>
-        <button class="btn" onclick="window.location.href='page3.html'"><span>3</span></button>
-        <button class="btn" onclick="window.location.href='page4.html'"><span>4</span></button>
-        <button class="btn" onclick="window.location.href='page5.html'"><span>5</span></button>
-        <button class="btn disabled-btn" disabled><span>6</span></button>
-        <button class="btn disabled-btn" disabled><span>7</span></button>
-        <button class="btn disabled-btn" disabled><span>8</span></button>
-        <button class="btn disabled-btn" disabled><span>9</span></button>
-        <button class="btn disabled-btn" disabled><span>10</span></button>
-        <button class="btn disabled-btn" disabled><span>11</span></button>
-        <button class="btn disabled-btn" disabled><span>12</span></button>
-        <button class="btn disabled-btn" disabled><span>13</span></button>
-        <button class="btn disabled-btn" disabled><span>14</span></button>
-        <button class="btn disabled-btn" disabled><span>15</span></button>
-        <button class="btn disabled-btn" disabled><span>16</span></button>
-        <button class="btn disabled-btn" disabled><span>17</span></button>
-        <button class="btn disabled-btn" disabled><span>18</span></button>
-        <button class="btn disabled-btn" disabled><span>19</span></button>
-        <button class="btn disabled-btn" disabled><span>20</span></button>
-        <button class="btn disabled-btn" disabled><span>21</span></button>
-        <button class="btn disabled-btn" disabled><span>22</span></button>
-        <button class="btn disabled-btn" disabled><span>23</span></button>
-        <button class="btn disabled-btn" disabled><span>24</span></button>
-        <button class="btn disabled-btn" disabled><span>25</span></button>
-        <button class="btn disabled-btn" disabled><span>26</span></button>
-        <button class="btn disabled-btn" disabled><span>27</span></button>
-        <button class="btn disabled-btn" disabled><span>28</span></button>
-        <button class="btn disabled-btn" disabled><span>29</span></button>
-        <button class="btn disabled-btn" disabled><span>30</span></button>
-        <button class="btn disabled-btn" disabled><span>31</span></button>
-        <button class="btn disabled-btn" disabled><span>32</span></button>
-        <button class="btn disabled-btn" disabled><span>33</span></button>
-        <button class="btn disabled-btn" disabled><span>34</span></button>
-        <button class="btn disabled-btn" disabled><span>35</span></button>
-        <button class="btn disabled-btn" disabled><span>36</span></button>
-        <button class="btn disabled-btn" disabled><span>37</span></button>
-        <button class="btn disabled-btn" disabled><span>38</span></button>
-        <button class="btn disabled-btn" disabled><span>39</span></button>
-        <button class="btn disabled-btn" disabled><span>40</span></button>
-        <button class="btn disabled-btn" disabled><span>41</span></button>
-        <button class="btn disabled-btn" disabled><span>42</span></button>
-        <button class="btn disabled-btn" disabled><span>43</span></button>
-        <button class="btn disabled-btn" disabled><span>44</span></button>
-        <button class="btn disabled-btn" disabled><span>45</span></button>
-        <button class="btn disabled-btn" disabled><span>46</span></button>
-        <button class="btn disabled-btn" disabled><span>47</span></button>
-        <button class="btn disabled-btn" disabled><span>48</span></button>
-        <button class="btn disabled-btn" disabled><span>49</span></button>
-        <button class="btn disabled-btn" disabled><span>50</span></button>
-        <button class="btn disabled-btn" disabled><span>51</span></button>
-        <button class="btn disabled-btn" disabled><span>52</span></button>
-        <button class="btn disabled-btn" disabled><span>53</span></button>
-        <button class="btn disabled-btn" disabled><span>54</span></button>
-        <button class="btn disabled-btn" disabled><span>55</span></button>
-        <button class="btn disabled-btn" disabled><span>56</span></button>
-        <button class="btn disabled-btn" disabled><span>57</span></button>
-        <button class="btn disabled-btn" disabled><span>58</span></button>
-        <button class="btn disabled-btn" disabled><span>59</span></button>
-        <button class="btn disabled-btn" disabled><span>60</span></button>
-        <button class="btn disabled-btn" disabled><span>61</span></button>
-        <button class="btn disabled-btn" disabled><span>62</span></button>
-        <button class="btn disabled-btn" disabled><span>63</span></button>
-        <button class="btn disabled-btn" disabled><span>64</span></button>
-        <button class="btn disabled-btn" disabled><span>65</span></button>
-        <button class="btn disabled-btn" disabled><span>66</span></button>
-        <button class="btn disabled-btn" disabled><span>67</span></button>
-        <button class="btn disabled-btn" disabled><span>68</span></button>
-        <button class="btn disabled-btn" disabled><span>69</span></button>
-        <button class="btn disabled-btn" disabled><span>70</span></button>
-        <button class="btn disabled-btn" disabled><span>71</span></button>
-        <button class="btn disabled-btn" disabled><span>72</span></button>
-        <button class="btn disabled-btn" disabled><span>73</span></button>
-        <button class="btn disabled-btn" disabled><span>74</span></button>
-        <button class="btn disabled-btn" disabled><span>75</span></button>
-        <button class="btn disabled-btn" disabled><span>76</span></button>
-        <button class="btn disabled-btn" disabled><span>77</span></button>
-        <button class="btn disabled-btn" disabled><span>78</span></button>
-        <button class="btn disabled-btn" disabled><span>79</span></button>
-        <button class="btn disabled-btn" disabled><span>80</span></button>
-        <button class="btn disabled-btn" disabled><span>81</span></button>
-        <button class="btn disabled-btn" disabled><span>82</span></button>
-        <button class="btn disabled-btn" disabled><span>83</span></button>
-        <button class="btn disabled-btn" disabled><span>84</span></button>
-        <button class="btn disabled-btn" disabled><span>85</span></button>
-        <button class="btn disabled-btn" disabled><span>86</span></button>
-        <button class="btn disabled-btn" disabled><span>87</span></button>
-        <button class="btn disabled-btn" disabled><span>88</span></button>
-        <button class="btn disabled-btn" disabled><span>89</span></button>
-        <button class="btn disabled-btn" disabled><span>90</span></button>
-        <button class="btn disabled-btn" disabled><span>91</span></button>
-        <button class="btn disabled-btn" disabled><span>92</span></button>
-        <button class="btn disabled-btn" disabled><span>93</span></button>
-        <button class="btn disabled-btn" disabled><span>94</span></button>
-        <button class="btn disabled-btn" disabled><span>95</span></button>
-        <button class="btn disabled-btn" disabled><span>96</span></button>
-        <button class="btn disabled-btn" disabled><span>97</span></button>
-        <button class="btn disabled-btn" disabled><span>98</span></button>
-        <button class="btn disabled-btn" disabled><span>99</span></button>
-        <button class="btn disabled-btn" disabled><span>100</span></button>
+        <button class="btn" onclick="window.location.href='page1.html'">1</button>
+        <button class="btn" onclick="window.location.href='page2.html'">2</button>
+        <button class="btn" onclick="window.location.href='page3.html'">3</button>
+        <button class="btn" onclick="window.location.href='page4.html'">4</button>
+        <button class="btn" onclick="window.location.href='page5.html'">5</button>
+        
+        <button class="btn" disabled>6</button>
+        <button class="btn" disabled>7</button>
+        <button class="btn" disabled>8</button>
+        <button class="btn" disabled>9</button>
+        <button class="btn" disabled>10</button>
+        <button class="btn" disabled>11</button>
+        <button class="btn" disabled>12</button>
+        <button class="btn" disabled>13</button>
+        <button class="btn" disabled>14</button>
+        <button class="btn" disabled>15</button>
+        <button class="btn" disabled>16</button>
+        <button class="btn" disabled>17</button>
+        <button class="btn" disabled>18</button>
+        <button class="btn" disabled>19</button>
+        <button class="btn" disabled>20</button>
+        <button class="btn" disabled>21</button>
+        <button class="btn" disabled>22</button>
+        <button class="btn" disabled>23</button>
+        <button class="btn" disabled>24</button>
+        <button class="btn" disabled>25</button>
+        <button class="btn" disabled>26</button>
+        <button class="btn" disabled>27</button>
+        <button class="btn" disabled>28</button>
+        <button class="btn" disabled>29</button>
+        <button class="btn" disabled>30</button>
+        <button class="btn" disabled>31</button>
+        <button class="btn" disabled>32</button>
+        <button class="btn" disabled>33</button>
+        <button class="btn" disabled>34</button>
+        <button class="btn" disabled>35</button>
+        <button class="btn" disabled>36</button>
+        <button class="btn" disabled>37</button>
+        <button class="btn" disabled>38</button>
+        <button class="btn" disabled>39</button>
+        <button class="btn" disabled>40</button>
+        <button class="btn" disabled>41</button>
+        <button class="btn" disabled>42</button>
+        <button class="btn" disabled>43</button>
+        <button class="btn" disabled>44</button>
+        <button class="btn" disabled>45</button>
+        <button class="btn" disabled>46</button>
+        <button class="btn" disabled>47</button>
+        <button class="btn" disabled>48</button>
+        <button class="btn" disabled>49</button>
+        <button class="btn" disabled>50</button>
+        <button class="btn" disabled>51</button>
+        <button class="btn" disabled>52</button>
+        <button class="btn" disabled>53</button>
+        <button class="btn" disabled>54</button>
+        <button class="btn" disabled>55</button>
+        <button class="btn" disabled>56</button>
+        <button class="btn" disabled>57</button>
+        <button class="btn" disabled>58</button>
+        <button class="btn" disabled>59</button>
+        <button class="btn" disabled>60</button>
+        <button class="btn" disabled>61</button>
+        <button class="btn" disabled>62</button>
+        <button class="btn" disabled>63</button>
+        <button class="btn" disabled>64</button>
+        <button class="btn" disabled>65</button>
+        <button class="btn" disabled>66</button>
+        <button class="btn" disabled>67</button>
+        <button class="btn" disabled>68</button>
+        <button class="btn" disabled>69</button>
+        <button class="btn" disabled>70</button>
+        <button class="btn" disabled>71</button>
+        <button class="btn" disabled>72</button>
+        <button class="btn" disabled>73</button>
+        <button class="btn" disabled>74</button>
+        <button class="btn" disabled>75</button>
+        <button class="btn" disabled>76</button>
+        <button class="btn" disabled>77</button>
+        <button class="btn" disabled>78</button>
+        <button class="btn" disabled>79</button>
+        <button class="btn" disabled>80</button>
+        <button class="btn" disabled>81</button>
+        <button class="btn" disabled>82</button>
+        <button class="btn" disabled>83</button>
+        <button class="btn" disabled>84</button>
+        <button class="btn" disabled>85</button>
+        <button class="btn" disabled>86</button>
+        <button class="btn" disabled>87</button>
+        <button class="btn" disabled>88</button>
+        <button class="btn" disabled>89</button>
+        <button class="btn" disabled>90</button>
+        <button class="btn" disabled>91</button>
+        <button class="btn" disabled>92</button>
+        <button class="btn" disabled>93</button>
+        <button class="btn" disabled>94</button>
+        <button class="btn" disabled>95</button>
+        <button class="btn" disabled>96</button>
+        <button class="btn" disabled>97</button>
+        <button class="btn" disabled>98</button>
+        <button class="btn" disabled>99</button>
+        <button class="btn" disabled>100</button>
       </div>
     </div>
 
