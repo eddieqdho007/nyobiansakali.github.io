@@ -261,6 +261,9 @@
             color: black;
             cursor: pointer;
             transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .footer-button button:hover {
@@ -284,6 +287,10 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .footer-button .tengah span {
+            margin: 0 5px;
         }
 
         .pertanyaan h3,
@@ -1808,7 +1815,7 @@
             questionBtn.style.width = '60px';
             questionBtn.style.height = '40px';
             questionBtn.style.borderRadius = '15%';
-            questionBtn.style.border = '1px solid #778899';
+            questionBtn.style.border = '1px solid #404040';
             questionBtn.style.cursor = 'pointer';
             questionBtn.style.fontWeight = 'bold';
             questionBtn.style.transition = 'all 0.2s';
